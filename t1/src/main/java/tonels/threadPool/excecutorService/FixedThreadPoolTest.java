@@ -1,21 +1,22 @@
-package excecutorService;
+package tonels.threadPool.excecutorService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class SingleThreadExecutorTest {
+public class FixedThreadPoolTest {
     public static void main(String[] args) {
-        //单线程池
-        //使用场景：多个任务顺序执行(FIFO,优先级)
+        //混合线程池
+        //使用场景：任务量比较固定但耗时长的任务
         /**
-         * 单队列参数描述(默认参数，已经配置好的)
-         * @param corePoolSize = 1  单线程执行，保证顺序
-         * @param maximumPoolSize = 1
+         * 混合队列参数描述(默认参数，已经配置好的)
+         * @param nThreads 最大和核心线程数量
+         * @param corePoolSize = nThreads   创建实例时输入
+         * @param maximumPoolSize = nThreads  创建实例时输入
          * @param keepAliveTime = 0L  无效 所有线程都是核心线程，不回收线程
          * @param TimeUnit = TimeUnit.SECONDS
          * @param BlockingQueue = new LinkedBlockingQueue<Runnable>()
          */
-        ExecutorService stp = Executors.newSingleThreadExecutor();
+        ExecutorService ftp = Executors.newFixedThreadPool(5);
 
         //测试
         /**
@@ -24,7 +25,7 @@ public class SingleThreadExecutorTest {
          * 匿名内部类：在编译时会创建一个新的类，性能低
          */
         for (int i = 0; i < 100; i++) {
-            stp.execute(() -> {
+            ftp.execute(() -> {
                 System.out.println("大家好，我是线程。");
             });
         }

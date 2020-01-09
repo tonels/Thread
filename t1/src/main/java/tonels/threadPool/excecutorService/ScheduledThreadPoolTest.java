@@ -1,4 +1,4 @@
-package excecutorService;
+package tonels.threadPool.excecutorService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

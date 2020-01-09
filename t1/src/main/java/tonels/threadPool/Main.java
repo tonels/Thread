@@ -1,5 +1,7 @@
-package test;
+package tonels.threadPool;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -9,30 +11,31 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     public static void main(String[] args) {
-        Main main = new Main();
-        main.run();
-    }
 
-    private void run() {
-        delay5sec();
-        execEverySec();
-        secBetweenExec();
+        System.out.println(LocalDateTime.now());
         fixedThreadPool();
-        cashedThreadPool();
+        System.out.println(LocalDateTime.now());
+//        delay5sec();
+//        execEverySec();
+//        secBetweenExec();
+//        cashedThreadPool();
     }
 
-    //использует два потока
-    private void fixedThreadPool() {
-        ExecutorService service = Executors.newFixedThreadPool(2);
-        for (int i = 0; i < 10; i++) {
-            service.submit(new Runnable() {
-                public void run() {
-                    System.out.println(Thread.currentThread().getName());
+    // 定长线程池
+    private static void fixedThreadPool() {
+        ExecutorService service = Executors.newFixedThreadPool(10);
+        for (int i = 0; i < 5; i++) {
+            service.submit(() -> {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                System.out.println(Thread.currentThread().getName());
             });
         }
 
-        //закрытие пула после завершения работы всех его потоков
+        // 关闭线程
         service.shutdown();
         try {
             System.out.println("Ready? " + service.awaitTermination(1, TimeUnit.MINUTES));
@@ -41,17 +44,17 @@ public class Main {
         }
 
         //принудительное завершение работы
-        /*List<Runnable> rejected = service.shutdownNow(); //невыполненные задачи
+        List<Runnable> rejected = service.shutdownNow(); //невыполненные задачи
         System.out.println("Rejected: "+rejected.size());
         try {
             System.out.println("Ready? " + service.awaitTermination(1, TimeUnit.MINUTES));
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     //сам определяет кол-во потоков и кому какая работа выпадет
-    private void cashedThreadPool() {
+    private static void cashedThreadPool() {
         ExecutorService service = Executors.newCachedThreadPool();
         for (int i = 0; i < 10; i++) {
             service.submit(new Runnable() {
@@ -63,7 +66,7 @@ public class Main {
     }
 
     //выполнит один раз через 5 сек после вызова ф-и
-    private void delay5sec() {
+    private static void delay5sec() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.schedule(new Runnable() {
             public void run() {
@@ -74,7 +77,7 @@ public class Main {
     }
 
     //запускает поток через каждые 3 сек
-    private void execEverySec() {
+    private static void execEverySec() {
         int[] arr = new Random().ints(100000, 0, 100000).toArray();
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleAtFixedRate(new Runnable() {
@@ -87,7 +90,7 @@ public class Main {
     }
 
     //запускает поток через 3 сек после окончания работы
-    private void secBetweenExec() {
+    private static void secBetweenExec() {
         int[] arr = new Random().ints(100000, 0, 100000).toArray();
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
         service.scheduleWithFixedDelay(new Runnable() {
@@ -98,7 +101,7 @@ public class Main {
         }, 0, 3, TimeUnit.SECONDS);
     }
 
-    private void printSortingTime(int[] arr) {
+    private static void printSortingTime(int[] arr) {
         long start = System.currentTimeMillis();
         selectionSort(arr);
         long finish = System.currentTimeMillis();
@@ -107,7 +110,7 @@ public class Main {
         System.out.println("=================================");
     }
 
-    private void selectionSort(int[] arr) {
+    private static void selectionSort(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int indexMin = i;
             for (int j = i + 1; j < arr.length; j++) {
