@@ -17,6 +17,10 @@ class FirstWay implements Runnable {
     private static int numberOfInstances = 0;
     private String taskId;
 
+    public FirstWay() {
+        this.taskId = "FirstWay-" + numberOfInstances++;
+    }
+
     public void run() {
 //        Thread.currentThread().setName("CustomThreadName");
         Thread.currentThread().setName("CustomThreadName <" + taskId + ">");
@@ -31,11 +35,8 @@ class FirstWay implements Runnable {
                 e.printStackTrace();
             }
         }
-
         System.out.println("************************* [" + threadName + "] thread has finished executing task: <" + taskId + ">");
     }
 
-    public FirstWay() {
-        this.taskId = "FirstWay-" + numberOfInstances++;
-    }
+
 }

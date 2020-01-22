@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 public class CallableTest {
+
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Date begin = new Date();
         Calculate calculate = new Calculate();
@@ -47,7 +48,6 @@ class RunnableDemo implements Runnable {
     private Integer result;
 
     private volatile boolean done = false;
-
 
     @Override
     public void run() {

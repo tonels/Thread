@@ -1,5 +1,6 @@
 package tonels.efficientMulthread.Sec2_NamingTheThreads;
 
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -22,9 +23,13 @@ public class NamingExecutorThreads {
 }
 
 class LoopTask implements Runnable {
+
     private static int instanceCount = 1;
     private int nthTask;
 
+    public LoopTask() {
+        this.nthTask = instanceCount++;
+    }
     public void run() {
         System.out.println("###################### Starting [" + Thread.currentThread().getName() + "] <Task-"+nthTask+">");
 
@@ -41,9 +46,7 @@ class LoopTask implements Runnable {
 
     }
 
-    public LoopTask() {
-        this.nthTask = instanceCount++;
-    }
+
 }
 
 class MyThreadFactory implements ThreadFactory {

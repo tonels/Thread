@@ -6,10 +6,13 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class CachedThreadPoolProof {
+
     public static void main (String[] args) {
+
         System.out.println("################# Starting Main ");
 
         ExecutorService executorService = Executors.newCachedThreadPool(new ThreadFactoryCorrect());
+
         executorService.execute(new LoopTask());
         executorService.execute(new LoopTask());
 
@@ -34,6 +37,10 @@ class LoopTaskCachedThreadPool implements Runnable {
     private static int instanceCount = 0;
     private int nthTask;
 
+    public LoopTaskCachedThreadPool() {
+        this.nthTask = instanceCount++;
+    }
+
     public void run() {
         System.out.println("###################### Starting [" + Thread.currentThread().getName() + "] <Task-"+nthTask+">");
 
@@ -49,13 +56,14 @@ class LoopTaskCachedThreadPool implements Runnable {
         System.out.println("********************** Ending [" + Thread.currentThread().getName() + "] <Task-"+nthTask+">");
     }
 
-    public LoopTaskCachedThreadPool() {
-        this.nthTask = instanceCount++;
-    }
+
 }
 
+// 基于线程工厂，构建缓冲线程池
 class ThreadFactoryCorrect implements ThreadFactory {
+
     private static int nthThread = 1;
+
     public Thread newThread(Runnable r) {
         Thread t = new Thread(r, "MyThread-" + (nthThread++));
         return t;

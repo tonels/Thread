@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 public class CreatingThreadsSecondWay {
     public static void main (String[] args) {
         System.out.println("Starting main!!!!");
+
         new SecondWay().start();
-        Thread thread = new FirstWay();
-        thread.start();
+        new SecondWay().start();
+
+
         System.out.println("Ending main!!!");
     }
 }
@@ -16,6 +18,11 @@ class SecondWay extends Thread {
 
     private static int count = 1;
     private int id;
+
+    public SecondWay() {
+        id = count++;
+    }
+
 
     @Override
     public void run() {
@@ -31,8 +38,5 @@ class SecondWay extends Thread {
         System.out.println("Ending First Way -------");
     }
 
-    public SecondWay() {
-        id = count++;
-    }
 }
 

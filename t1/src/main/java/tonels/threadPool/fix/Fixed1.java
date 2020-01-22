@@ -37,18 +37,9 @@ public class Fixed1 {
         if (list.size() > 0) {
             System.out.println("执行次数：" + list.size());
             for (final Map map : list) {
-                Callable<Boolean> call = new Callable<Boolean>() {
-                    @Override
-                    public Boolean call() throws Exception {
-                        try {
-                            return doYouMethod();
-                        } catch (Exception e) {
-                            System.out.println("执行异常：" + e);
-                            return false;
-                        }
-                    }
-                };
-                callableList.add(call);
+                Call1 call1 = new Call1();
+
+                callableList.add(call1);
             }
         }
         try {
@@ -70,13 +61,22 @@ public class Fixed1 {
         System.out.println(runnables.size());
     }
 
-    public Boolean doYouMethod() {
-        System.out.println(Thread.currentThread().getName() + "...就位状态..");
-        return true;
-    }
-
     public static void main(String[] args) {
         Fixed1 ft = new Fixed1();
         ft.testFixedThreadPool();
+    }
+}
+
+class Call1 implements Callable<Boolean>{
+
+    @Override
+    public Boolean call() throws Exception {
+        try {
+            System.out.println(Thread.currentThread().getName() + "...就位状态..");
+            return true;
+        } catch (Exception e) {
+            System.out.println("执行异常：" + e);
+            return false;
+        }
     }
 }

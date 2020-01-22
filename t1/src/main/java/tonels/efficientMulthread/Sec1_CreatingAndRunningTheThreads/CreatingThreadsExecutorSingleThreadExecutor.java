@@ -7,8 +7,11 @@ import java.util.concurrent.TimeUnit;
 //As we can see in this example, the demarit of renaming a thread in the task definition.
 public class CreatingThreadsExecutorSingleThreadExecutor {
     public static void main(String[] args) {
+
         System.out.println("############## Starting main");
+
         ExecutorService executorService = Executors.newSingleThreadExecutor();
+
         executorService.submit(new SingleThreadExecutorRunnable());
         executorService.submit(new SingleThreadExecutorRunnable());
         executorService.submit(new SingleThreadExecutorRunnable());
@@ -18,14 +21,20 @@ public class CreatingThreadsExecutorSingleThreadExecutor {
 
         System.out.println("----------------- Shutting Down Executor Service");
         executorService.shutdown();
+
         System.out.println("************** Ending main");
 
     }
 }
 
 class SingleThreadExecutorRunnable implements Runnable {
+
     static int nthInstance = 0;
     private int id;
+
+    public SingleThreadExecutorRunnable() {
+        this.id = ++nthInstance;
+    }
 
     public void run() {
         System.out.println("######## Starting <Thread-" + id + ">");
@@ -42,7 +51,5 @@ class SingleThreadExecutorRunnable implements Runnable {
         System.out.println("********** Ending <Thread-" + id + ">");
     }
 
-    public SingleThreadExecutorRunnable() {
-        this.id = ++nthInstance;
-    }
+
 }

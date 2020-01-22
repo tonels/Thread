@@ -16,6 +16,11 @@ class ThirdWay implements Runnable {
     static int count = 1;
     int id = 0;
 
+    ThirdWay() {
+        this.id = count++;
+        new Thread(this).start();
+    }
+
     public void run() {
         for(int i = 1 ; i <= 10; i++) {
             try {
@@ -28,8 +33,5 @@ class ThirdWay implements Runnable {
     }
 
 
-    ThirdWay() {
-        this.id = count++;
-        new Thread(this).start();
-    }
+
 }
