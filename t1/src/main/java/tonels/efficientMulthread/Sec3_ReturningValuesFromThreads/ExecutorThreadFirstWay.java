@@ -14,6 +14,7 @@ public class ExecutorThreadFirstWay {
         Future<?> result3 = executorService.submit(new SumTaskExecutor(4, 5, 500));
         Future<?> result4 = executorService.submit(new LoopTaskRet(5, 6, 4000));
         Future<Integer> result5 = executorService.submit(new LoopTaskRet(6, 7, 5000), 44444);
+
         try {
             System.out.println("Result1: " + result1.get());
             System.out.println("Result2: " + result2.get());

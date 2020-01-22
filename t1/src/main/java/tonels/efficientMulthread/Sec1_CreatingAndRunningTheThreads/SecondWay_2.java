@@ -1,34 +1,30 @@
 package tonels.efficientMulthread.Sec1_CreatingAndRunningTheThreads;
 
-import java.util.concurrent.TimeUnit;
-
 /**
- * Starting main.......
- * Ending main.......
- * TN-2> Tick Tick: 1
- * TN-1> Tick Tick: 1
- * TN-1> Tick Tick: 2
- * TN-2> Tick Tick: 2
- * TN-1> Tick Tick: 3
- * TN-2> Tick Tick: 3
+ * todo
+ * 如何正确给线程命名
  */
-public class CreatingThreadsThirdWay {
+public class SecondWay_2 {
     public static void main(String[] args) {
 
         System.out.println("Starting main.......");
-        new ThirdWay();
-        new ThirdWay();
+        new SeWay("TN-");
+        new SeWay("TN-");
         System.out.println("Ending main.......");
     }
+
+
 }
 
-class ThirdWay implements Runnable {
+class SeWay implements Runnable {
 
     static int count = 1;
     int id = 0;
+    String name;
 
-    ThirdWay() {
+    SeWay(String name) {
         this.id = count++;
+        this.name = name + id;
         new Thread(this).start();
     }
 

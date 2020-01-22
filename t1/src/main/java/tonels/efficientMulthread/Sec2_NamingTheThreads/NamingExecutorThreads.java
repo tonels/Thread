@@ -6,11 +6,41 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * ******************* Starting Main
+ * ******************* Ending Main
+ * ###################### Starting [MyThread-1] <Task-1>
+ * [MyThread-1] <Task-1> Tick Tick: 1
+ * ###################### Starting [MyThread-2] <Task-2>
+ * [MyThread-2] <Task-2> Tick Tick: 1
+ * ###################### Starting [MyThread-3] <Task-3>
+ * [MyThread-3] <Task-3> Tick Tick: 1
+ * ###################### Starting [MyThread-4] <Task-4>
+ * [MyThread-4] <Task-4> Tick Tick: 1
+ * ###################### Starting [MyThread-5] <Task-5>
+ * [MyThread-5] <Task-5> Tick Tick: 1
+ * [MyThread-1] <Task-1> Tick Tick: 2
+ * [MyThread-1] <Task-1> Tick Tick: 3
+ * [MyThread-2] <Task-2> Tick Tick: 2
+ * [MyThread-3] <Task-3> Tick Tick: 2
+ * [MyThread-2] <Task-2> Tick Tick: 3
+ * [MyThread-3] <Task-3> Tick Tick: 3
+ * [MyThread-4] <Task-4> Tick Tick: 2
+ * [MyThread-5] <Task-5> Tick Tick: 2
+ * ###################### Ending [MyThread-1] <Task-1>
+ * [MyThread-4] <Task-4> Tick Tick: 3
+ * ###################### Ending [MyThread-2] <Task-2>
+ * ###################### Ending [MyThread-3] <Task-3>
+ * ###################### Ending [MyThread-4] <Task-4>
+ * [MyThread-5] <Task-5> Tick Tick: 3
+ * ###################### Ending [MyThread-5] <Task-5>
+ */
 public class NamingExecutorThreads {
     public static void main (String[] args) {
-        System.out.println("################# Starting Main ");
+        System.out.println("******************* Starting Main ");
 
         ExecutorService executorService = Executors.newCachedThreadPool(new MyThreadFactory());
+
         executorService.execute(new LoopTask());
         executorService.execute(new LoopTask());
         executorService.execute(new LoopTask());
@@ -42,7 +72,7 @@ class LoopTask implements Runnable {
             }
         }
 
-        System.out.println("********************** Ending [" + Thread.currentThread().getName() + "] <Task-"+nthTask+">");
+        System.out.println("###################### Ending [" + Thread.currentThread().getName() + "] <Task-"+nthTask+">");
 
     }
 
@@ -50,10 +80,12 @@ class LoopTask implements Runnable {
 }
 
 class MyThreadFactory implements ThreadFactory {
-    private static int instanceCount = 1;
+
+    private static int instanceCount = 0;
+
     private int nthThread;
+
     public Thread newThread(Runnable r) {
-//        Thread t = new Thread(r, "MyThread-" + nthThread);    //Wont work. Will always return a thread with name "MyThread-1", since the constructor of MyThreadFactory is only called once, while every time a new thread is created, it is created using newThread(Runnable r) method itself (i.e., this method only). Hence, the constructor is never called. While in cases of tasks, every time we would have to send a new LoopTask, thus invoking the constructor on every instance creation.
         Thread t = new Thread(r, "MyThread-" + (instanceCount++));
         return t;
     }
